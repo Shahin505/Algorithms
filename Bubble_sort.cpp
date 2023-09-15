@@ -1,5 +1,3 @@
-// C++ code to linearly search x in arr[].
-
 #include <bits/stdc++.h>
 using namespace std;
 
