@@ -1,77 +1,89 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-// To heapify a subtree rooted with node i
-// which is an index in arr[].
-// n is size of heap
-void heapify(int arr[], int N, int i)
+void merge(int array[], int const left, int const mid,
+		int const right)
 {
+	int const subArrayOne = mid - left + 1;
+	int const subArrayTwo = right - mid;
 
-	// Initialize largest as root
-	int largest = i;
 
-	// left = 2*i + 1
-	int l = 2 * i + 1;
+	auto *leftArray = new int[subArrayOne],
+		*rightArray = new int[subArrayTwo];
 
-	// right = 2*i + 2
-	int r = 2 * i + 2;
 
-	// If left child is larger than root
-	if (l < N && arr[l] > arr[largest])
-		largest = l;
+	for (auto i = 0; i < subArrayOne; i++)
+		leftArray[i] = array[left + i];
+	for (auto j = 0; j < subArrayTwo; j++)
+		rightArray[j] = array[mid + 1 + j];
 
-	// If right child is larger than largest
-	// so far
-	if (r < N && arr[r] > arr[largest])
-		largest = r;
+	auto indexOfSubArrayOne = 0, indexOfSubArrayTwo = 0;
+	int indexOfMergedArray = left;
 
-	// If largest is not root
-	if (largest != i) {
-		swap(arr[i], arr[largest]);
-
-		// Recursively heapify the affected
-		// sub-tree
-		heapify(arr, N, largest);
+	while (indexOfSubArrayOne < subArrayOne
+		&& indexOfSubArrayTwo < subArrayTwo) {
+		if (leftArray[indexOfSubArrayOne]
+			<= rightArray[indexOfSubArrayTwo]) {
+			array[indexOfMergedArray]
+				= leftArray[indexOfSubArrayOne];
+			indexOfSubArrayOne++;
+		}
+		else {
+			array[indexOfMergedArray]
+				= rightArray[indexOfSubArrayTwo];
+			indexOfSubArrayTwo++;
+		}
+		indexOfMergedArray++;
 	}
-}
 
-// Main function to do heap sort
-void heapSort(int arr[], int N)
-{
-
-	// Build heap (rearrange array)
-	for (int i = N / 2 - 1; i >= 0; i--)
-		heapify(arr, N, i);
-
-	// One by one extract an element
-	// from heap
-	for (int i = N - 1; i > 0; i--) {
-
-		// Move current root to end
-		swap(arr[0], arr[i]);
-
-		// call max heapify on the reduced heap
-		heapify(arr, i, 0);
+	while (indexOfSubArrayOne < subArrayOne) {
+		array[indexOfMergedArray]
+			= leftArray[indexOfSubArrayOne];
+		indexOfSubArrayOne++;
+		indexOfMergedArray++;
 	}
+
+
+	while (indexOfSubArrayTwo < subArrayTwo) {
+		array[indexOfMergedArray]
+			= rightArray[indexOfSubArrayTwo];
+		indexOfSubArrayTwo++;
+		indexOfMergedArray++;
+	}
+	delete[] leftArray;
+	delete[] rightArray;
 }
 
-// A utility function to print array of size n
-void printArray(int arr[], int N)
+void mergeSort(int array[], int const begin, int const end)
 {
-	for (int i = 0; i < N; ++i)
-		cout << arr[i] << " ";
-	cout << "\n";
+	if (begin >= end)
+		return;
+
+	int mid = begin + (end - begin) / 2;
+	mergeSort(array, begin, mid);
+	mergeSort(array, mid + 1, end);
+	merge(array, begin, mid, end);
 }
 
-// Driver's code
+void printArray(int A[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << A[i] << " ";
+	cout << endl;
+}
+
 int main()
 {
-	int arr[] = { 12, 11, 13, 5, 6, 7,15 };
-	int N = sizeof(arr) / sizeof(arr[0]);
+	int arr[] = { 12, 11, 13, 5, 6, 7 };
+	int arr_size = sizeof(arr) / sizeof(arr[0]);
 
-	// Function call
-	heapSort(arr, N);
+	cout << "Given array is \n";
+	printArray(arr, arr_size);
 
-	cout << "Sorted array is \n";
-	printArray(arr, N);
+	mergeSort(arr, 0, arr_size - 1);
+
+	cout << "\nSorted array is \n";
+	printArray(arr, arr_size);
+	return 0;
 }
+
