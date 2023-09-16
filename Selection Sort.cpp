@@ -1,46 +1,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Function to sort an array using
-// insertion sort
-void insertionSort(int arr[], int n)
+void selectionSort(int arr[], int n)
 {
-	int i, key, j;
-	for (i = 1; i < n; i++) {
-		key = arr[i];
-		j = i - 1;
+	int i, j, min_idx;
 
-		// Move elements of arr[0..i-1],
-		// that are greater than key,
-		// to one position ahead of their
-		// current position
-		while (j >= 0 && arr[j] > key) {
-			arr[j + 1] = arr[j];
-			j = j - 1;
+	for (i = 0; i < n - 1; i++) {
+
+
+		min_idx = i;
+		for (j = i + 1; j < n; j++) {
+			if (arr[j] < arr[min_idx])
+				min_idx = j;
 		}
-		arr[j + 1] = key;
+
+
+		if (min_idx != i)
+			swap(arr[min_idx], arr[i]);
 	}
 }
 
-// A utility function to print an array
-// of size n
-void printArray(int arr[], int n)
+void printArray(int arr[], int size)
 {
 	int i;
-	for (i = 0; i < n; i++)
+	for (i = 0; i < size; i++) {
 		cout << arr[i] << " ";
-	cout << endl;
+		cout << endl;
+	}
 }
 
-// Driver code
 int main()
 {
-	int arr[] = { 12, 11, 13, 5, 6 };
-	int N = sizeof(arr) / sizeof(arr[0]);
+	int arr[] = { 64, 25, 12, 22, 11 };
+	int n = sizeof(arr) / sizeof(arr[0]);
 
-	insertionSort(arr, N);
-	printArray(arr, N);
 
+	selectionSort(arr, n);
+	cout << "Sorted array: \n";
+	printArray(arr, n);
 	return 0;
 }
-
