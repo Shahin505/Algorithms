@@ -1,25 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int search(int arr[], int N, int x)
+void bubbleSort(int arr[], int n)
 {
-	for (int i = 0; i < N; i++)
-		if (arr[i] == x)
-			return i;
-	return -1;
+	int i, j;
+	bool swapped;
+	for (i = 0; i < n - 1; i++) {
+		swapped = false;
+		for (j = 0; j < n - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				swap(arr[j], arr[j + 1]);
+				swapped = true;
+			}
+		}
+
+
+		if (swapped == false)
+			break;
+	}
 }
 
-// Driver code
-int main(void)
+void printArray(int arr[], int size)
 {
-	int arr[] = { 2, 3, 4, 10, 40 };
-	int x = 10;
-	int N = sizeof(arr) / sizeof(arr[0]);
+	int i;
+	for (i = 0; i < size; i++)
+		cout << " " << arr[i];
+}
 
-	// Function call
-	int result = search(arr, N, x);
-	(result == -1)
-		? cout << "Element is not present in array"
-		: cout << "Element is present at index " << result;
+int main()
+{
+	int arr[] = { 64, 34, 25, 12, 22, 11, 90 };
+	int N = sizeof(arr) / sizeof(arr[0]);
+	bubbleSort(arr, N);
+	cout << "Sorted array: \n";
+	printArray(arr, N);
 	return 0;
 }
