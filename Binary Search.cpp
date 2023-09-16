@@ -1,44 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void selectionSort(int arr[], int n)
+int binarySearch(int arr[], int l, int r, int x)
 {
-	int i, j, min_idx;
+	while (l <= r) {
+		int m = l + (r - l) / 2;
 
+		if (arr[m] == x)
+			return m;
 
-	for (i = 0; i < n - 1; i++) {
+		if (arr[m] < x)
+			l = m + 1;
 
-
-		min_idx = i;
-		for (j = i + 1; j < n; j++) {
-			if (arr[j] < arr[min_idx])
-				min_idx = j;
-		}
-
-		if (min_idx != i)
-			swap(arr[min_idx], arr[i]);
+		else
+			r = m - 1;
 	}
-}
 
-void printArray(int arr[], int size)
-{
-	int i;
-	for (i = 0; i < size; i++) {
-		cout << arr[i] << " ";
-		cout << endl;
-	}
-}
 
-int main()
+	return -1;
+}
+int main(void)
 {
-	int arr[] = { 64, 25, 12, 22, 11 };
+	int arr[] = { 2, 3, 4, 10, 40 };
+	int x = 10;
 	int n = sizeof(arr) / sizeof(arr[0]);
-
-
-	selectionSort(arr, n);
-	cout << "Sorted array: \n";
-	printArray(arr, n);
+	int result = binarySearch(arr, 0, n - 1, x);
+	(result == -1)
+		? cout << "Element is not present in array"
+		: cout << "Element is present at index " << result;
 	return 0;
 }
-
-
